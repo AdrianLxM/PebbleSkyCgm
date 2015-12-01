@@ -2725,16 +2725,23 @@ case CGM_NAME_KEY:;
         HaveCalcRaw = 100;
       }
       else { HaveCalcRaw = 111; }  
-      text_layer_set_text(raw_calc_layer, last_calc_raw);    
+      text_layer_set_text(raw_calc_layer, last_calc_raw);  
+      
+      //Adrian: Add the last raw also (instead of "uncalibrated"):
+       if ( (strcmp(last_calc_raw1, "0") == 0) || (strcmp(last_calc_raw1, "0.0") == 0) ) {
+        strncpy(last_calc_raw1, " ", BG_MSGSTR_SIZE);
+      }
+      text_layer_set_text(raw_unfilt_layer, last_calc_raw1;
       break; // break for CGM_CLRW_KEY
     
- 	case CGM_RWUF_KEY:;
+ case CGM_RWUF_KEY:;
       //APP_LOG(APP_LOG_LEVEL_INFO, "SYNC TUPLE: RAW UNFILTERED");
-      strncpy(last_raw_unfilt, new_tuple->value->cstring, BG_MSGSTR_SIZE);
+      //Adrian: do nothing as we already use this field for the last one.
+      /*strncpy(last_raw_unfilt, new_tuple->value->cstring, BG_MSGSTR_SIZE);
       if ( (strcmp(last_raw_unfilt, "0") == 0) || (strcmp(last_raw_unfilt, "0.0") == 0) || (TurnOnUnfilteredRaw == 100) ) {
         strncpy(last_raw_unfilt, " ", BG_MSGSTR_SIZE);
       }
-      text_layer_set_text(raw_unfilt_layer, last_raw_unfilt);
+      text_layer_set_text(raw_unfilt_layer, last_raw_unfilt);*/
       break; // break for CGM_RWUF_KEY
      
   case CGM_BGSX_KEY:;
