@@ -145,6 +145,9 @@ uint8_t current_noise_value = 0;
 char last_calc_raw1[6] = {0};
 char last_calc_raw2[6] = {0};
 char last_calc_raw3[6] = {0};
+char last_calc_raw1_show[6] = {0};
+char last_calc_raw2_show[6] = {0};
+char last_calc_raw3_show[6] = {0};
 int current_bg = 0;
 int current_calc_raw = 0;
 int current_calc_raw1 = 0;
@@ -1936,6 +1939,18 @@ else {
       } // HardCodeNoAnimations; end all animation code
  
       }	 } // end bg checks (if special_value_bitmap)
+      
+      //copy raw values
+      if(HaveCalcRaw == 111){
+      	current_calc_raw = myBGAtoi(last_calc_raw);
+        if (current_calc_raw != current_calc_raw1) {
+            strncpy(last_calc_raw3, last_calc_raw2, BG_BUFFER_SIZE);
+            strncpy(last_calc_raw2, last_calc_raw1, BG_BUFFER_SIZE);
+            strncpy(last_calc_raw1, last_calc_raw, BG_BUFFER_SIZE);
+            current_calc_raw1 = current_calc_raw;
+        }
+      }
+      
        
       // see if we're going to use the current bg or the calculated raw bg for vibrations
       if ( ((current_bg > 0) && (current_bg < bg_ptr[SPECVALUE_BG_INDX])) && (HaveCalcRaw == 111) ) {
@@ -1957,26 +1972,23 @@ else {
           }
         } // TurnOffVibrationsCalcRaw
         
-        // use calculated raw values in BG field; if different cascade down so we have last three values
-        if (current_calc_raw != current_calc_raw1) {
-            strncpy(last_calc_raw3, last_calc_raw2, BG_BUFFER_SIZE);
-            strncpy(last_calc_raw2, last_calc_raw1, BG_BUFFER_SIZE);
-            strncpy(last_calc_raw1, last_calc_raw, BG_BUFFER_SIZE);
-            current_calc_raw1 = current_calc_raw;
-        }
+        //show 3 raw values
+        strncpy(last_calc_raw1_show, last_calc_raw1, BG_BUFFER_SIZE);
+        strncpy(last_calc_raw2_show, last_calc_raw2, BG_BUFFER_SIZE);
+        strncpy(last_calc_raw3_show, last_calc_raw3, BG_BUFFER_SIZE);
       }
       
       else {
         // if not in special values or don't have calculated raw, blank out the fields
-        strncpy(last_calc_raw1, " ", BG_BUFFER_SIZE);
-        strncpy(last_calc_raw2, " ", BG_BUFFER_SIZE);
-        strncpy(last_calc_raw3, " ", BG_BUFFER_SIZE);
+        strncpy(last_calc_raw1_show, " ", BG_BUFFER_SIZE);
+        strncpy(last_calc_raw2_show, " ", BG_BUFFER_SIZE);
+        strncpy(last_calc_raw3_show, " ", BG_BUFFER_SIZE);
       }
       
       // set bg field accordingly for calculated raw layer
-      text_layer_set_text(calcraw_last1_layer, last_calc_raw1);
-      text_layer_set_text(calcraw_last2_layer, last_calc_raw2);
-      text_layer_set_text(calcraw_last3_layer, last_calc_raw3);
+      text_layer_set_text(calcraw_last1_layer, last_calc_raw1_show);
+      text_layer_set_text(calcraw_last2_layer, last_calc_raw2_show);
+      text_layer_set_text(calcraw_last3_layer, last_calc_raw3_show);
       
       //APP_LOG(APP_LOG_LEVEL_DEBUG, "LOAD BG, START VIBRATE, CURRENT_BG: %d LAST_BG: %s ", current_bg, last_bg);
       //APP_LOG(APP_LOG_LEVEL_DEBUG, "LOAD BG, START VIBRATE, CURRENT_CALC_RAW: %d LAST_CALC_RAW: %s ", current_calc_raw, last_calc_raw);
