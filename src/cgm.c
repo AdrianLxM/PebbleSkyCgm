@@ -1980,9 +1980,13 @@ else {
       
       else {
         // if not in special values or don't have calculated raw, blank out the fields
-        strncpy(last_calc_raw1_show, " ", BG_BUFFER_SIZE);
+        /*strncpy(last_calc_raw1_show, " ", BG_BUFFER_SIZE);
         strncpy(last_calc_raw2_show, " ", BG_BUFFER_SIZE);
-        strncpy(last_calc_raw3_show, " ", BG_BUFFER_SIZE);
+        strncpy(last_calc_raw3_show, " ", BG_BUFFER_SIZE);*/
+        //Adrian for Alessandro:
+        strncpy(last_calc_raw1_show, last_calc_raw1, BG_BUFFER_SIZE);
+        strncpy(last_calc_raw2_show, last_calc_raw2, BG_BUFFER_SIZE);
+        strncpy(last_calc_raw3_show, last_calc_raw3, BG_BUFFER_SIZE);
       }
       
       // set bg field accordingly for calculated raw layer
@@ -2737,13 +2741,7 @@ case CGM_NAME_KEY:;
         HaveCalcRaw = 100;
       }
       else { HaveCalcRaw = 111; }  
-      text_layer_set_text(raw_calc_layer, last_calc_raw);  
-      
-      //Adrian: Add the last raw also (instead of "uncalibrated"):
-       if ( (strcmp(last_calc_raw1, "0") == 0) || (strcmp(last_calc_raw1, "0.0") == 0) ) {
-        strncpy(last_calc_raw1, " ", BG_MSGSTR_SIZE);
-      }
-      text_layer_set_text(raw_unfilt_layer, last_calc_raw1);
+      text_layer_set_text(raw_calc_layer, last_calc_raw);    
       break; // break for CGM_CLRW_KEY
     
  case CGM_RWUF_KEY:;
